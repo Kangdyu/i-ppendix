@@ -59,7 +59,7 @@ const MOCKUP_TODO_OS = {
 };
 
 export const MOCKUP_TODOS = {
-  oss: MOCKUP_TODO_OSS,
-  mobile: MOCKUP_TODO_MOBILE,
-  os: MOCKUP_TODO_OS,
+  1: MOCKUP_TODO_OSS,
+  2: MOCKUP_TODO_MOBILE,
+  3: MOCKUP_TODO_OS,
 };
