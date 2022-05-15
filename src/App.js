@@ -1,15 +1,30 @@
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [courses, setCourses] = useState(null);
+  const [todos, setTodos] = useState(null);
+  const [notices, setNotices] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await chrome.runtime.sendMessage({
-        data: 'hi from react',
+      const cResponse = await chrome.runtime.sendMessage({
+        type: 'courses',
+        mockup: true,
+      });
+      const tResponse = await chrome.runtime.sendMessage({
+        type: 'todos',
+        course: '오픈소스소프트웨어실습',
+        mockup: true,
+      });
+      const nResponse = await chrome.runtime.sendMessage({
+        type: 'notices',
+        course: '오픈소스소프트웨어실습',
+        mockup: true,
       });
 
-      setData(response.data);
+      setCourses(cResponse.data);
+      setTodos(tResponse.data);
+      setNotices(nResponse.data);
     }
 
     fetchData();
@@ -18,7 +33,38 @@ function App() {
   return (
     <div>
       <h1>i-ppendix</h1>
-      {data && <div>{data}</div>}
+      {courses && (
+        <ul>
+          {courses.map(course => (
+            <li key={course.id}>{course.name}</li>
+          ))}
+        </ul>
+      )}
+      {todos?.videos && (
+        <ul>
+          {todos.videos.map(todo => (
+            <li key={todo.id}>
+              {todo.title} {todo.due}
+            </li>
+          ))}
+        </ul>
+      )}
+      {todos?.assignments && (
+        <ul>
+          {todos.assignments.map(todo => (
+            <li key={todo.id}>
+              {todo.title} {todo.due}
+            </li>
+          ))}
+        </ul>
+      )}
+      {notices && (
+        <ul>
+          {notices.map(notice => (
+            <li key={notice.id}>{notice.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
