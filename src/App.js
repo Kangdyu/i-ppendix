@@ -9,14 +9,17 @@ function App() {
     async function fetchData() {
       const cResponse = await chrome.runtime.sendMessage({
         type: 'courses',
+        mockup: true,
       });
       const tResponse = await chrome.runtime.sendMessage({
         type: 'todos',
-        course: 'oss',
+        course: '오픈소스소프트웨어실습',
+        mockup: true,
       });
       const nResponse = await chrome.runtime.sendMessage({
         type: 'notices',
-        course: 'oss',
+        course: '오픈소스소프트웨어실습',
+        mockup: true,
       });
 
       setCourses(cResponse.data);
@@ -30,9 +33,38 @@ function App() {
   return (
     <div>
       <h1>i-ppendix</h1>
-      {courses && <div>{courses}</div>}
-      {todos && <div>{todos}</div>}
-      {notices && <div>{notices}</div>}
+      {courses && (
+        <ul>
+          {courses.map(course => (
+            <li key={course.id}>{course.name}</li>
+          ))}
+        </ul>
+      )}
+      {todos?.videos && (
+        <ul>
+          {todos.videos.map(todo => (
+            <li key={todo.id}>
+              {todo.title} {todo.due}
+            </li>
+          ))}
+        </ul>
+      )}
+      {todos?.assignments && (
+        <ul>
+          {todos.assignments.map(todo => (
+            <li key={todo.id}>
+              {todo.title} {todo.due}
+            </li>
+          ))}
+        </ul>
+      )}
+      {notices && (
+        <ul>
+          {notices.map(notice => (
+            <li key={notice.id}>{notice.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
