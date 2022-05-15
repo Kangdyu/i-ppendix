@@ -1,7 +1,11 @@
 function messageListener(msg, sender, sendResponse) {
-  console.log('received message from react', msg);
-
-  sendResponse({ data: 'HI!' });
+  if (msg.type === 'courses') {
+    sendResponse({ data: 'courses' });
+  } else if (msg.type === 'todos') {
+    sendResponse({ data: `${msg.course} todos` });
+  } else if (msg.type === 'notices') {
+    sendResponse({ data: `${msg.course} notices` });
+  }
 
   // for async behavior
   return true;

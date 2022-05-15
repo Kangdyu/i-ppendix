@@ -1,15 +1,27 @@
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [courses, setCourses] = useState(null);
+  const [todos, setTodos] = useState(null);
+  const [notices, setNotices] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await chrome.runtime.sendMessage({
-        data: 'hi from react',
+      const cResponse = await chrome.runtime.sendMessage({
+        type: 'courses',
+      });
+      const tResponse = await chrome.runtime.sendMessage({
+        type: 'todos',
+        course: 'oss',
+      });
+      const nResponse = await chrome.runtime.sendMessage({
+        type: 'notices',
+        course: 'oss',
       });
 
-      setData(response.data);
+      setCourses(cResponse.data);
+      setTodos(tResponse.data);
+      setNotices(nResponse.data);
     }
 
     fetchData();
@@ -18,7 +30,9 @@ function App() {
   return (
     <div>
       <h1>i-ppendix</h1>
-      {data && <div>{data}</div>}
+      {courses && <div>{courses}</div>}
+      {todos && <div>{todos}</div>}
+      {notices && <div>{notices}</div>}
     </div>
   );
 }
