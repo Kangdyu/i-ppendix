@@ -1,71 +1,39 @@
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { MOCKUP_COURSES } from './chrome/mockup/courses';
+import Home from './components/Home';
+import Sidebar from './components/Sidebar';
+
+const Container = styled.main`
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+`;
 
 function App() {
   const [courses, setCourses] = useState(null);
-  const [todos, setTodos] = useState(null);
-  const [notices, setNotices] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
-      const cResponse = await chrome.runtime.sendMessage({
+    async function fetchCourses() {
+      const response = await chrome.runtime.sendMessage({
         type: 'courses',
         mockup: true,
       });
-      const tResponse = await chrome.runtime.sendMessage({
-        type: 'todos',
-        courseId: 1,
-        mockup: true,
-      });
-      const nResponse = await chrome.runtime.sendMessage({
-        type: 'notices',
-        courseId: 1,
-        mockup: true,
-      });
 
-      setCourses(cResponse.data);
-      setTodos(tResponse.data);
-      setNotices(nResponse.data);
+      setCourses(response.data);
     }
 
-    fetchData();
+    fetchCourses();
   }, []);
 
+  if (courses == null) return <main>Loading...</main>;
+
   return (
-    <div>
-      <h1>i-ppendix</h1>
-      {courses && (
-        <ul>
-          {courses.map(course => (
-            <li key={course.id}>{course.name}</li>
-          ))}
-        </ul>
-      )}
-      {todos?.videos && (
-        <ul>
-          {todos.videos.map(todo => (
-            <li key={todo.id}>
-              {todo.title} {todo.due}
-            </li>
-          ))}
-        </ul>
-      )}
-      {todos?.assignments && (
-        <ul>
-          {todos.assignments.map(todo => (
-            <li key={todo.id}>
-              {todo.title} {todo.due}
-            </li>
-          ))}
-        </ul>
-      )}
-      {notices && (
-        <ul>
-          {notices.map(notice => (
-            <li key={notice.id}>{notice.title}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Container>
+      <Sidebar courses={courses} />
+      <Home />
+    </Container>
   );
 }
 

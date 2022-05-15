@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     word-break: keep-all;
     word-wrap: break-word;
+    background-color: #fbfcff;
   }
 
   * {
