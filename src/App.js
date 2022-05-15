@@ -13,12 +13,12 @@ function App() {
       });
       const tResponse = await chrome.runtime.sendMessage({
         type: 'todos',
-        course: '오픈소스소프트웨어실습',
+        courseId: 1,
         mockup: true,
       });
       const nResponse = await chrome.runtime.sendMessage({
         type: 'notices',
-        course: '오픈소스소프트웨어실습',
+        courseId: 1,
         mockup: true,
       });
 
