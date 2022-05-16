@@ -7,8 +7,8 @@
     "service_worker": "static/js/background.js"
   },
   "options_page": "index.html",
-  "permissions": ["activeTab"],
-  "host_permissions": ["https://canvas.skku.edu/*"],
+  "permissions": ["activeTab", "cookies"],
+  "host_permissions": ["https://canvas.skku.edu/*", "*://*.google.com"],
   "icons": {
     "16": "logo192.png",
     "32": "logo192.png",
