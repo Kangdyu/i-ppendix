@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import { MOCKUP_COURSES } from './chrome/mockup/courses';
 import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import NotFoundPage from './pages/NotFoundPage';
+import useSWR from 'swr';
+import { fetcher } from './utils/fetcher';
 
 const FullScreenFlexContainer = styled.div`
   display: flex;
@@ -19,27 +19,17 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [courses, setCourses] = useState(null);
+  const { data: courses, error } = useSWR('courses', type =>
+    fetcher({ type, mockup: true }),
+  );
 
-  useEffect(() => {
-    async function fetchCourses() {
-      const response = await chrome.runtime.sendMessage({
-        type: 'courses',
-        mockup: true,
-      });
-
-      setCourses(response.data);
-    }
-
-    fetchCourses();
-  }, []);
-
+  if (error) return <main>Error</main>;
   if (courses == null) return <main>Loading...</main>;
 
   return (
     <BrowserRouter basename='/index.html'>
       <FullScreenFlexContainer>
-        <Sidebar courses={courses} />
+        <Sidebar courses={courses.data} />
         <Container>
           <Routes>
             <Route path='/' element={<HomePage />} />
