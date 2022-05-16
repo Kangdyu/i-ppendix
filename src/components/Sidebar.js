@@ -1,6 +1,7 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Container = styled.nav`
+const Nav = styled.nav`
   width: 360px;
   border-right: 1px solid #ddd;
   padding: 36px 20px;
@@ -14,28 +15,46 @@ const Logo = styled.span`
   margin-bottom: 50px;
 `;
 
-const NavList = styled.ul``;
-
 const NavListItem = styled.li`
-  padding: 16px 50px;
   margin-bottom: 16px;
   border-radius: 8px;
-  background-color: ${props => (props.selected ? '#00D768' : '')};
-  color: ${props => (props.selected ? 'white' : 'black')};
-  font-weight: ${props => (props.selected ? 'bold' : 'regular')};
+  overflow: hidden;
+`;
+
+const StyledLink = styled(NavLink)`
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 16px 50px;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: #cfeeda;
+  }
+
+  &.active {
+    background-color: #00d768;
+    color: white;
+    font-weight: bold;
+  }
 `;
 
 function Sidebar({ courses }) {
   return (
-    <Container>
+    <Nav>
       <Logo>i-ppendix</Logo>
-      <NavList>
-        <NavListItem selected>Home</NavListItem>
+      <ul>
+        <NavListItem selected>
+          <StyledLink to='/'>Home</StyledLink>
+        </NavListItem>
         {courses.map(course => (
-          <NavListItem key={course.id}>{course.name}</NavListItem>
+          <NavListItem key={course.id}>
+            <StyledLink to={`/course/${course.id}`}>{course.name}</StyledLink>
+          </NavListItem>
         ))}
-      </NavList>
-    </Container>
+      </ul>
+    </Nav>
   );
 }
 
