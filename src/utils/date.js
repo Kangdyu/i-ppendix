@@ -3,15 +3,23 @@ function getDayString(dayNumber) {
   return days[dayNumber];
 }
 
+function pad2(str) {
+  if (parseInt(str) < 10) {
+    return `0${str}`;
+  } else {
+    return str;
+  }
+}
+
 export function formatDate(dateString) {
   const nDate = new Date(dateString);
 
   const year = nDate.getFullYear();
-  const month = nDate.getMonth() + 1;
-  const date = nDate.getDate();
+  const month = pad2(nDate.getMonth() + 1);
+  const date = pad2(nDate.getDate());
   const day = getDayString(nDate.getDay());
-  const hour = nDate.getHours();
-  const min = nDate.getMinutes();
+  const hour = pad2(nDate.getHours());
+  const min = pad2(nDate.getMinutes());
 
   return `${year}.${month}.${date}(${day}) ${hour}:${min}`;
 }
