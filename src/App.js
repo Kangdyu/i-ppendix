@@ -4,8 +4,7 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import NotFoundPage from './pages/NotFoundPage';
-import useSWR from 'swr';
-import { fetcher } from './utils/fetcher';
+import useCourses from './hooks/useCourses';
 
 const FullScreenFlexContainer = styled.div`
   display: flex;
@@ -19,9 +18,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const { data: courses, error } = useSWR('courses', type =>
-    fetcher({ type, mockup: true }),
-  );
+  const { courses, error } = useCourses({ mockup: true });
 
   if (error) return <main>Error</main>;
   if (courses == null) return <main>Loading...</main>;
