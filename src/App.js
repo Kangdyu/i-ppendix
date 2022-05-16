@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import NotFoundPage from './pages/NotFoundPage';
 import useCourses from './hooks/useCourses';
+import { MOCKUP_COURSES } from './chrome/mockup/courses';
 
 const FullScreenFlexContainer = styled.div`
   display: flex;
@@ -14,13 +15,16 @@ const FullScreenFlexContainer = styled.div`
 `;
 
 const Container = styled.div`
+  flex: 1;
   padding: 36px 60px;
 `;
 
 function App() {
-  const { courses, isLoading } = useCourses({ mockup: true });
+  // const { courses, isLoading } = useCourses({ mockup: true });
 
-  if (isLoading) return <main>Loading...</main>;
+  // if (isLoading) return <main>Loading...</main>;
+
+  const courses = MOCKUP_COURSES;
 
   return (
     <BrowserRouter basename='/index.html'>
