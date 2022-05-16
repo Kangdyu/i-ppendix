@@ -1,12 +1,12 @@
-import useSWR from 'swr';
+import { useQuery } from 'react-query';
 import { fetcher } from '../utils/fetcher';
 
-function useTodos({ courseId, mockup = false }) {
-  const { data: todos, error } = useSWR(`todos_${courseId}`, key =>
-    fetcher({ type: key.split('_')[0], courseId, mockup }),
+function useTodos({ courseId, mockup }) {
+  const { data: todos, ...props } = useQuery(['todos', courseId], () =>
+    fetcher({ type: 'todos', courseId, mockup }),
   );
 
-  return { todos, error };
+  return { todos, ...props };
 }
 
 export default useTodos;

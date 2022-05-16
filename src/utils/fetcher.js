@@ -1,3 +1,3 @@
-export async function fetcher({ type, courseId, mockup }) {
+export async function fetcher({ type, courseId, mockup = false }) {
   return await chrome.runtime.sendMessage({ type, courseId, mockup });
 }

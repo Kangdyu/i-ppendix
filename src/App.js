@@ -18,10 +18,9 @@ const Container = styled.div`
 `;
 
 function App() {
-  const { courses, error } = useCourses({ mockup: true });
+  const { courses, isLoading } = useCourses({ mockup: true });
 
-  if (error) return <main>Error</main>;
-  if (courses == null) return <main>Loading...</main>;
+  if (isLoading) return <main>Loading...</main>;
 
   return (
     <BrowserRouter basename='/index.html'>

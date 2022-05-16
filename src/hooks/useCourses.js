@@ -1,12 +1,12 @@
-import useSWRImmutable from 'swr/immutable';
+import { useQuery } from 'react-query';
 import { fetcher } from '../utils/fetcher';
 
-function useCourses({ mockup = false }) {
-  const { data: courses, error } = useSWRImmutable('courses', type =>
-    fetcher({ type, mockup }),
+function useCourses({ mockup }) {
+  const { data: courses, ...props } = useQuery('courses', () =>
+    fetcher({ type: 'courses', mockup }),
   );
 
-  return { courses, error };
+  return { courses, ...props };
 }
 
 export default useCourses;

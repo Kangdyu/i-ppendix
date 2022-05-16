@@ -4,10 +4,9 @@ import useTodos from '../hooks/useTodos';
 
 function CoursePage() {
   const { courseId } = useParams();
-  const { todos, error } = useTodos({ courseId, mockup: true });
+  const { todos, isLoading } = useTodos({ courseId, mockup: true });
 
-  if (error) return <main>Error</main>;
-  if (todos == null) return <main>Loading...</main>;
+  if (isLoading) return <main>Loading...</main>;
 
   return (
     <PageContentContainer title='Course'>
