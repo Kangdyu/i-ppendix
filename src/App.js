@@ -20,11 +20,9 @@ const Container = styled.div`
 `;
 
 function App() {
-  // const { courses, isLoading } = useCourses({ mockup: true });
+  const { courses, isLoading } = useCourses({ mockup: true });
 
-  // if (isLoading) return <main>Loading...</main>;
-
-  const courses = MOCKUP_COURSES;
+  if (isLoading) return <main>Loading...</main>;
 
   return (
     <BrowserRouter basename='/index.html'>
