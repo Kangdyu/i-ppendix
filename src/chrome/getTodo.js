@@ -1,22 +1,21 @@
 export async function getTodo(courseID) {
-  let userID;
-  await getUserID(courseID).then(appdata => {
-    userID = appdata;
-  });
-  console.log(userID);
+  const userID = await getUserID(courseID);
+  const Token = await getCookie('xn_api_token');
+  const authToken = 'Bearer ' + Token;
 
-  let authToken;
-  await getCookie('xn_api_token').then(appdata => {
-    authToken = appdata;
-  });
-  console.log(authToken);
-
-  //implement with userID, authToken
+  if (typeof userID === undefined || typeof authToken === undefined) {
+    return 'unknown';
+  } else {
+    console.log(userID);
+    console.log(courseID);
+    console.log(authToken);
+    _getTodo(courseID, userID, authToken);
+  }
 }
 
 async function getUserID(courseID) {
-  let basicurl = 'https://canvas.skku.edu/api/v1/courses/' + courseID;
-  const response = await fetch(basicurl, {
+  let endpoint = 'https://canvas.skku.edu/api/v1/courses/' + courseID;
+  const response = await fetch(endpoint, {
     headers: { Accept: 'application/json' },
   });
   const responseJson = await response.json();
@@ -26,12 +25,12 @@ async function getUserID(courseID) {
   return userID;
 }
 
-async function getCookie(token_name) {
+async function getCookie(tokenName) {
   const cookies = await chrome.cookies.getAll({ domain: 'canvas.skku.edu' });
 
   let token;
   for (let i = 0; i < cookies.length; i++) {
-    if (cookies[i].name === token_name) {
+    if (cookies[i].name === tokenName) {
       token = cookies[i].value;
       break;
     }
@@ -39,16 +38,18 @@ async function getCookie(token_name) {
   return token;
 }
 
-/*
-const ENDPOINT = 'https://canvas.skku.edu/api/v1/users/self/favorites/courses';
-
-export async function getDataFromICampus() {
-  const response = await fetch(ENDPOINT, {
-    headers: { Accept: 'application/json' },
+async function _getTodo(courseID, userID, authToken) {
+  let endpoint =
+    'https://canvas.skku.edu/learningx/api/v1/courses/' +
+    courseID +
+    '/allcomponents_db?user_id=' +
+    userID +
+    '&role=1';
+  const response = await fetch(endpoint, {
+    headers: { Authorization: authToken, Accept: 'application/json' },
   });
   const responseJson = await response.json();
-
   console.log(responseJson);
-  return responseJson;
+
+  //implement refine responseJson
 }
-*/
