@@ -10,13 +10,7 @@ root.render(
     <App />
   </React.StrictMode>,
 );
-if (typeof document !== 'undefined') {
-  console.log('not undefined..');
-  let token_name = 'xn_api_token';
-  let value = document.cookie.match('(^|;) ?' + token_name + '=([^;]*)(;|$)');
-  console.log(document.cookie);
-  console.log(value);
-}
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

@@ -8,7 +8,7 @@
   },
   "options_page": "index.html",
   "permissions": ["activeTab", "cookies"],
-  "host_permissions": ["https://canvas.skku.edu/*", "*://*.google.com"],
+  "host_permissions": ["https://canvas.skku.edu/*", "<all_urls>"],
   "icons": {
     "16": "logo192.png",
     "32": "logo192.png",

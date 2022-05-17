@@ -2,8 +2,8 @@ export function todoAPI(courseID) {
   let userID = getuserID(courseID);
   console.log(userID);
 
-  let cookie = getcookie('xn_api_token');
-  console.log(cookie);
+  let authToken = getcookie();
+  console.log(authToken);
 }
 
 async function getuserID(courseID) {
@@ -18,17 +18,16 @@ async function getuserID(courseID) {
   return userID;
 }
 
-function getcookie(token_name) {
-  let value;
-  if (typeof window !== 'undefined') {
-    console.log('not undefined..');
-    value = window.document.cookie.match(
-      '(^|;) ?' + token_name + '=([^;]*)(;|$)',
-    );
-  } else {
-    console.log('undefined..');
+async function getcookie() {
+  const cookies = await chrome.cookies.getAll({ domain: 'canvas.skku.edu' });
+  console.log(cookies);
+  let token;
+  for (let i = 0; i < cookies.length; i++) {
+    if (cookies[i].name === 'xn_api_token') {
+      token = cookies[i].value;
+    }
   }
-  return value ? value[2] : null;
+  return token;
 }
 
 /*
