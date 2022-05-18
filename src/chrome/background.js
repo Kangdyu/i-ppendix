@@ -1,12 +1,14 @@
 import { MOCKUP_COURSES } from './mockup/courses';
 import { MOCKUP_NOTICES } from './mockup/notices';
 import { MOCKUP_TODOS } from './mockup/todos';
+import { getTodo } from './getTodo';
 
 function mockupListener(msg, sendResponse) {
   if (msg.type === 'courses') {
     sendResponse(MOCKUP_COURSES);
   } else if (msg.type === 'todos') {
     const todosData = MOCKUP_TODOS[msg.courseId];
+    //const todosData = getTodo(28710);
     let response;
     if (todosData === undefined) {
       response = { data: 'unknown' };
