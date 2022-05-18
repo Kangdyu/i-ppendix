@@ -6,7 +6,7 @@ export async function getTodo(courseID) {
   const authToken = 'Bearer ' + Token;
 
   if (typeof userID === undefined || typeof authToken === undefined) {
-    return 'unknown';
+    return;
   } else {
     const todo = await _getTodo(courseID, courseName, userID, authToken);
     return todo;
