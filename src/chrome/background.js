@@ -1,6 +1,7 @@
 import { MOCKUP_COURSES } from './mockup/courses';
 import { MOCKUP_NOTICES } from './mockup/notices';
 import { MOCKUP_TODOS } from './mockup/todos';
+import { getNotice } from './getNotice';
 import { getTodo } from './getTodo';
 
 function mockupListener(msg, sendResponse) {
@@ -43,7 +44,15 @@ async function messageListener(msg, sender, sendResponse) {
       }
       sendResponse(response);
     } else if (msg.type === 'notices') {
-      sendResponse({ data: `${msg.course} notices` });
+      let response;
+      let noticeData;
+      getNotice(msg.courseId).then(res => (noticeData = res));
+      if (noticeData === undefined) {
+        response = { data: 'unknown' };
+      } else {
+        response = noticeData;
+      }
+      sendResponse(response);
     }
   }
 
