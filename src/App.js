@@ -1,71 +1,42 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
+import Sidebar from './components/Sidebar';
+import HomePage from './pages/HomePage';
+import CoursePage from './pages/CoursePage';
+import NotFoundPage from './pages/NotFoundPage';
+import useCourses from './hooks/useCourses';
+
+const FullScreenFlexContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+`;
+
+const Container = styled.div`
+  padding: 36px 60px;
+`;
 
 function App() {
-  const [courses, setCourses] = useState(null);
-  const [todos, setTodos] = useState(null);
-  const [notices, setNotices] = useState(null);
+  const { courses, isLoading } = useCourses({ mockup: true });
 
-  useEffect(() => {
-    async function fetchData() {
-      const cResponse = await chrome.runtime.sendMessage({
-        type: 'courses',
-        mockup: true,
-      });
-      const tResponse = await chrome.runtime.sendMessage({
-        type: 'todos',
-        courseId: 1,
-        mockup: true,
-      });
-      const nResponse = await chrome.runtime.sendMessage({
-        type: 'notices',
-        courseId: 1,
-        mockup: true,
-      });
-
-      setCourses(cResponse.data);
-      setTodos(tResponse.data);
-      setNotices(nResponse.data);
-    }
-
-    fetchData();
-  }, []);
+  if (isLoading) return <main>Loading...</main>;
 
   return (
-    <div>
-      <h1>i-ppendix</h1>
-      {courses && (
-        <ul>
-          {courses.map(course => (
-            <li key={course.id}>{course.name}</li>
-          ))}
-        </ul>
-      )}
-      {todos?.videos && (
-        <ul>
-          {todos.videos.map(todo => (
-            <li key={todo.id}>
-              {todo.title} {todo.due}
-            </li>
-          ))}
-        </ul>
-      )}
-      {todos?.assignments && (
-        <ul>
-          {todos.assignments.map(todo => (
-            <li key={todo.id}>
-              {todo.title} {todo.due}
-            </li>
-          ))}
-        </ul>
-      )}
-      {notices && (
-        <ul>
-          {notices.map(notice => (
-            <li key={notice.id}>{notice.title}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <BrowserRouter basename='/index.html'>
+      <FullScreenFlexContainer>
+        <Sidebar courses={courses.data} />
+        <Container>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='course' element={<CoursePage />}>
+              <Route path=':courseId' element={<CoursePage />} />
+            </Route>
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+        </Container>
+      </FullScreenFlexContainer>
+    </BrowserRouter>
   );
 }
 
