@@ -8,7 +8,6 @@ function mockupListener(msg, sendResponse) {
     sendResponse(MOCKUP_COURSES);
   } else if (msg.type === 'todos') {
     const todosData = MOCKUP_TODOS[msg.courseId];
-    //const todosData = getTodo(28710);
     let response;
     if (todosData === undefined) {
       response = { data: 'unknown' };
@@ -28,14 +27,21 @@ function mockupListener(msg, sendResponse) {
   }
 }
 
-function messageListener(msg, sender, sendResponse) {
+async function messageListener(msg, sender, sendResponse) {
   if (msg.mockup === true) {
     mockupListener(msg, sendResponse);
   } else {
     if (msg.type === 'courses') {
       sendResponse({ data: 'courses' });
     } else if (msg.type === 'todos') {
-      sendResponse({ data: `${msg.course} todos` });
+      const todosData = await getTodo(msg.courseId);
+      let response;
+      if (todosData === undefined) {
+        response = { data: 'unknown' };
+      } else {
+        response = todosData;
+      }
+      sendResponse(response);
     } else if (msg.type === 'notices') {
       sendResponse({ data: `${msg.course} notices` });
     }
