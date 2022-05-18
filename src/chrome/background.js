@@ -44,7 +44,6 @@ function messageListener(msg, sender, sendResponse) {
       } else {
         response = noticeData;
       }
-      console.log(response);
       sendResponse(response);
     }
   }

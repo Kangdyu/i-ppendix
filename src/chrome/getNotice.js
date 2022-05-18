@@ -1,5 +1,5 @@
 export async function getNotice(cid) {
-  let arr = [];
+  let notices = [];
   let ENDPOINT =
     'https://canvas.skku.edu/api/v1/courses/' +
     String(cid) +
@@ -13,10 +13,10 @@ export async function getNotice(cid) {
     let notice = {};
     notice.id = data.id;
     notice.title = data.title;
-    notice.courseName = null;
+    notice.courseName = null; //TODO
     notice.postedDate = new Date(data.created_at);
     notice.url = data.url;
-    arr.push(notice);
+    notices.push(notice);
   }
-  return arr;
+  return notices;
 }
