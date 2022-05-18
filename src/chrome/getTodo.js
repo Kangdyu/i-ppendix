@@ -1,7 +1,7 @@
 export async function getTodo(courseID) {
-  const userIDarr = await getUserID(courseID);
-  const userID = userIDarr[0];
-  const courseName = userIDarr[1];
+  const courseInfo = await getCourseInfo(courseID);
+  const userID = courseInfo[0];
+  const courseName = courseInfo[1];
   const Token = await getCookie('xn_api_token');
   const authToken = 'Bearer ' + Token;
 
@@ -13,7 +13,7 @@ export async function getTodo(courseID) {
   }
 }
 
-async function getUserID(courseID) {
+async function getCourseInfo(courseID) {
   let endpoint = 'https://canvas.skku.edu/api/v1/courses/' + courseID;
   const response = await fetch(endpoint, {
     headers: { Accept: 'application/json' },
@@ -51,7 +51,7 @@ async function _getTodo(courseID, courseName, userID, authToken) {
   const responseJson = await response.json();
 
   //implement refine responseJson
-  const cur_time = new Date();
+  const curTime = new Date();
 
   let videos = [];
   let assignments = [];
@@ -65,9 +65,9 @@ async function _getTodo(courseID, courseName, userID, authToken) {
           responseJson[i]['points_possible'] === 0
         )
       ) {
-        let due_time = new Date(responseJson[i]['due_at']);
+        let dueTime = new Date(responseJson[i]['due_at']);
         //if it is not expired
-        if (cur_time < due_time) {
+        if (curTime < dueTime) {
           //if it is course
           if (responseJson[i]['type'] === 'commons') {
             let video = {};
@@ -75,7 +75,7 @@ async function _getTodo(courseID, courseName, userID, authToken) {
             video.title = responseJson[i]['title'];
             video.time = responseJson[i]['commons_content']['duration'];
             video.courseName = courseName;
-            video.due = due_time;
+            video.due = dueTime;
             video.url = responseJson[i]['view_info']['view_url'];
             videos.push(video);
           }
@@ -85,7 +85,7 @@ async function _getTodo(courseID, courseName, userID, authToken) {
             assignment.id = responseJson[i]['assignment_id'];
             assignment.title = responseJson[i]['title'];
             assignment.courseName = courseName;
-            assignment.due = due_time;
+            assignment.due = dueTime;
             assignment.url = responseJson[i]['view_info']['view_url'];
             assignments.push(assignment);
           }

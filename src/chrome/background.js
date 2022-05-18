@@ -27,14 +27,14 @@ function mockupListener(msg, sendResponse) {
   }
 }
 
-function messageListener(msg, sender, sendResponse) {
+async function messageListener(msg, sender, sendResponse) {
   if (msg.mockup === true) {
     mockupListener(msg, sendResponse);
   } else {
     if (msg.type === 'courses') {
       sendResponse({ data: 'courses' });
     } else if (msg.type === 'todos') {
-      const todosData = getTodo(msg.courseId);
+      const todosData = await getTodo(msg.courseId);
       let response;
       if (todosData === undefined) {
         response = { data: 'unknown' };
