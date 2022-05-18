@@ -7,8 +7,8 @@ function mockupListener(msg, sendResponse) {
   if (msg.type === 'courses') {
     sendResponse(MOCKUP_COURSES);
   } else if (msg.type === 'todos') {
-    //const todosData = MOCKUP_TODOS[msg.courseId];
-    const todosData = getTodo(29484);
+    const todosData = MOCKUP_TODOS[msg.courseId];
+    //const todosData = getTodo(29484);
     let response;
     if (todosData === undefined) {
       response = { data: 'unknown' };
