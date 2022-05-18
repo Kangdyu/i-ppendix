@@ -52,4 +52,29 @@ async function _getTodo(courseID, userID, authToken) {
   console.log(responseJson);
 
   //implement refine responseJson
+  const cur_time = new Date();
+
+  let videos = [],
+    assignments = [];
+  for (let i = 0; i < responseJson.length; i++) {
+    if (!responseJson[i]['completed']) {
+      // if task is not completed
+      if (
+        !(
+          responseJson[i]['points_possible'] === null ||
+          responseJson[i]['points_possible'] === 0
+        )
+      ) {
+        //if it has score
+        let due_time = new Date(responseJson[i]['due_at']);
+        if (cur_time > due_time) {
+          if (responseJson[i]['type'] === 'commons') {
+            console.log('I am course video in condition.');
+          } else if (responseJson[i]['type'] === 'assignment') {
+            console.log('I am assignment video in condition.');
+          }
+        }
+      }
+    }
+  }
 }
