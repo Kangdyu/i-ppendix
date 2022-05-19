@@ -4,7 +4,8 @@ import { formatDate, formatRemainTimeFromNow } from '../utils/date';
 const PADDING = 20;
 
 const Container = styled.div`
-  min-height: 500px;
+  height: 500px;
+  overflow-y: scroll;
   padding: ${PADDING}px 0;
   border-radius: 16px;
   border: 1px solid #dbdbdb;
@@ -35,14 +36,16 @@ const ListItemRow = styled.div`
   }
 `;
 
-const StrongText = styled.span`
-  font-size: 18px;
-  font-weight: 700;
-`;
-
 const Text = styled.span`
   font-size: 14px;
   color: #555;
+  text-align: ${props => props.align};
+`;
+
+const StrongText = styled(Text)`
+  font-size: 18px;
+  font-weight: 700;
+  color: black;
 `;
 
 function TodoList({ title, todos, ...props }) {
@@ -57,8 +60,8 @@ function TodoList({ title, todos, ...props }) {
               <StrongText>{formatRemainTimeFromNow(todo.due)}</StrongText>
             </ListItemRow>
             <ListItemRow>
-              <Text>{todo.courseName}</Text>
-              <Text>{formatDate(todo.due)} </Text>
+              <Text align='start'>{todo.courseName}</Text>
+              <Text align='end'>{formatDate(todo.due)} </Text>
             </ListItemRow>
           </ListItem>
         ))}
