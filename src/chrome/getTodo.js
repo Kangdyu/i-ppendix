@@ -4,11 +4,19 @@ export async function getTodo(courseID) {
   const courseName = courseInfo[1];
   const Token = await getCookie('xn_api_token');
   const authToken = 'Bearer ' + Token;
+  const studentID = await getStudentID(courseID, userID, authToken);
 
   if (userID === undefined || authToken === undefined) {
     return;
   } else {
-    const todo = await _getTodo(courseID, courseName, userID, authToken);
+    const todo = await _getTodo(
+      courseID,
+      courseName,
+      userID,
+      studentID,
+      authToken,
+    );
+
     return todo;
   }
 }
@@ -38,12 +46,29 @@ async function getCookie(tokenName) {
   return token;
 }
 
-async function _getTodo(courseID, courseName, userID, authToken) {
+async function getStudentID(courseID, userID, authToken) {
+  let endpoint =
+    'https://canvas.skku.edu/learningx/api/v1/courses/' +
+    courseID +
+    '/total_learnstatus/users/' +
+    userID;
+  const response = await fetch(endpoint, {
+    headers: { Authorization: authToken, Accept: 'application/json' },
+  });
+  const responseJson = await response.json();
+
+  let studentID = Number(responseJson['item']['user_login']);
+  return studentID;
+}
+
+async function _getTodo(courseID, courseName, userID, studentID, authToken) {
   let endpoint =
     'https://canvas.skku.edu/learningx/api/v1/courses/' +
     courseID +
     '/allcomponents_db?user_id=' +
     userID +
+    '&user_login=' +
+    studentID +
     '&role=1';
   const response = await fetch(endpoint, {
     headers: { Authorization: authToken, Accept: 'application/json' },
@@ -57,7 +82,7 @@ async function _getTodo(courseID, courseName, userID, authToken) {
   let assignments = [];
   for (let i = 0; i < responseJson.length; i++) {
     // if task is not completed
-    if (!responseJson[i]['completed']) {
+    if (responseJson[i]['completed'] === false) {
       //if it has score
       if (
         !(
@@ -66,18 +91,21 @@ async function _getTodo(courseID, courseName, userID, authToken) {
         )
       ) {
         let dueTime = new Date(responseJson[i]['due_at']);
+        let unlockTime = new Date(responseJson[i]['unlock_at']);
         //if it is not expired
-        if (curTime < dueTime) {
+        if (curTime < dueTime && curTime > unlockTime) {
           //if it is course
           if (responseJson[i]['type'] === 'commons') {
-            let video = {};
-            video.id = responseJson[i]['assignment_id'];
-            video.title = responseJson[i]['title'];
-            video.time = responseJson[i]['commons_content']['duration'];
-            video.courseName = courseName;
-            video.due = dueTime;
-            video.url = responseJson[i]['view_info']['view_url'];
-            videos.push(video);
+            if (responseJson[i]['use_attendance'] === true) {
+              let video = {};
+              video.id = responseJson[i]['assignment_id'];
+              video.title = responseJson[i]['title'];
+              video.time = responseJson[i]['commons_content']['duration'];
+              video.courseName = courseName;
+              video.due = dueTime;
+              video.url = responseJson[i]['view_info']['view_url'];
+              videos.push(video);
+            }
           }
           //if it is assignment
           else if (responseJson[i]['type'] === 'assignment') {
