@@ -1,6 +1,20 @@
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
+import TodoList from '../components/TodoList';
 import useTodos from '../hooks/useTodos';
+
+const TodoContainer = styled.section`
+  display: flex;
+  width: 100%;
+`;
+
+const StyledTodoList = styled(TodoList)`
+  flex: 1;
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+`;
 
 function CoursePage() {
   const { courseId } = useParams();
@@ -10,18 +24,10 @@ function CoursePage() {
 
   return (
     <PageContentContainer title='Course'>
-      <h2>수업</h2>
-      <ul>
-        {todos.data.videos.map(video => (
-          <li key={video.id}>{video.title}</li>
-        ))}
-      </ul>
-      <h2>과제</h2>
-      <ul>
-        {todos.data.assignments.map(assignment => (
-          <li key={assignment.id}>{assignment.title}</li>
-        ))}
-      </ul>
+      <TodoContainer>
+        <StyledTodoList title='수업' todos={todos.data.videos} />
+        <StyledTodoList title='과제' todos={todos.data.assignments} />
+      </TodoContainer>
     </PageContentContainer>
   );
 }
