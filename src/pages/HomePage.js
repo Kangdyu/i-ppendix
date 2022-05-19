@@ -36,18 +36,14 @@ function HomePage() {
   if (isLoading) return <main>Loading...</main>;
 
   const videoTodos = queries
-    .map(query =>
-      query.data.data.videos.sort((a, b) => new Date(a.due) - new Date(b.due)),
-    )
-    .reduce((prev, cur) => prev.concat(cur), []);
+    .map(query => query.data.data.videos)
+    .reduce((prev, cur) => prev.concat(cur), [])
+    .sort((a, b) => new Date(a.due) - new Date(b.due));
 
   const assignmentTodos = queries
-    .map(query =>
-      query.data.data.assignments.sort(
-        (a, b) => new Date(a.due) - new Date(b.due),
-      ),
-    )
-    .reduce((prev, cur) => prev.concat(cur), []);
+    .map(query => query.data.data.assignments)
+    .reduce((prev, cur) => prev.concat(cur), [])
+    .sort((a, b) => new Date(a.due) - new Date(b.due));
 
   return (
     <PageContentContainer title='Home'>
