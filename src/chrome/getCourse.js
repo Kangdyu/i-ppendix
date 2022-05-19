@@ -10,7 +10,7 @@ export async function getCourseList() {
     let data = responseJson[key];
     let courseData = {};
     courseData.id = Number(data.id);
-    courseData.name = data.name;
+    courseData.name = data.name.split('_')[0];
     let str = data.course_code;
     let courseCode = str.slice(str.indexOf('_') + 1, str.indexOf('('));
     let professorName = str.slice(str.indexOf('(') + 1, str.indexOf(')'));
