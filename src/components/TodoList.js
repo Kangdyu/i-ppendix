@@ -1,6 +1,11 @@
+import styled from 'styled-components';
 import { formatDate, formatRemainTimeFromNow } from '../utils/date';
 import ContentCard from './ContentCard';
 import { StrongText, Text } from './Text';
+
+const Anchor = styled.a`
+  text-decoration: none;
+`;
 
 function TodoList({ title, todos, ...props }) {
   return (
@@ -11,18 +16,21 @@ function TodoList({ title, todos, ...props }) {
         )}
         {todos.map(todo => (
           <ContentCard.ListItem key={todo.id}>
-            <ContentCard.ListItemRow>
-              <StrongText>{todo.title}</StrongText>
-              <StrongText>{formatRemainTimeFromNow(todo.due)}</StrongText>
-            </ContentCard.ListItemRow>
-            <ContentCard.ListItemRow>
-              <Text type='weak' align='start'>
-                {todo.courseName}
-              </Text>
-              <Text type='weak' align='end'>
-                {formatDate(todo.due)}{' '}
-              </Text>
-            </ContentCard.ListItemRow>
+            <Anchor href={todo.url} target='_blank'>
+              <ContentCard.ListItemRow>
+                <StrongText>{todo.title}</StrongText>
+                <StrongText>{formatRemainTimeFromNow(todo.due)}</StrongText>
+              </ContentCard.ListItemRow>
+              <ContentCard.ListItemRow>
+                <Text type='weak' align='start'>
+                  {todo.courseName}
+                  {todo.time && ` | ${Math.ceil(todo.time / 60)}분`}
+                </Text>
+                <Text type='weak' align='end'>
+                  마감기한 {formatDate(todo.due)}{' '}
+                </Text>
+              </ContentCard.ListItemRow>
+            </Anchor>
           </ContentCard.ListItem>
         ))}
       </ContentCard.List>
