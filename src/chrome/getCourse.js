@@ -14,16 +14,8 @@ export async function getCourseList() {
     let str = data.course_code;
     let courseCode = str.slice(str.indexOf('_') + 1, str.indexOf('('));
     let professorName = str.slice(str.indexOf('(') + 1, str.indexOf(')'));
-    if (courseCode.length === 10) {
-      courseData.courseCode = courseCode;
-    } else {
-      courseData.courseCode = null;
-    }
-    if (professorName.length === 3) {
-      courseData.professorName = professorName;
-    } else {
-      courseData.professorName = null;
-    }
+    courseData.courseCode = courseCode;
+    courseData.professorName = professorName;
     courses.push(courseData);
   }
   return courses;
