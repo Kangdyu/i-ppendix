@@ -3,6 +3,8 @@ import { MOCKUP_NOTICES } from './mockup/notices';
 import { MOCKUP_TODOS } from './mockup/todos';
 import { getNotice } from './getNotice';
 import { getTodo } from './getTodo';
+import { getCourseList } from './getCourse';
+import { getCourse } from './getCourse';
 
 function mockupListener(msg, sendResponse) {
   if (msg.type === 'courses') {
@@ -33,7 +35,23 @@ async function messageListener(msg, sender, sendResponse) {
     mockupListener(msg, sendResponse);
   } else {
     if (msg.type === 'courses') {
-      sendResponse({ data: 'courses' });
+      const courses = await getCourseList();
+      let response;
+      if (courses === undefined) {
+        response = { data: 'unknown' };
+      } else {
+        response = courses;
+      }
+      sendResponse(response);
+    } else if (msg.type === 'course') {
+      const courseData = await getCourse(msg.courseId);
+      let response;
+      if (courseData === undefined) {
+        response = { data: 'unknown' };
+      } else {
+        response = courseData;
+      }
+      sendResponse(response);
     } else if (msg.type === 'todos') {
       const todosData = await getTodo(msg.courseId);
       let response;
