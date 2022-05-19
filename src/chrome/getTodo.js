@@ -101,7 +101,7 @@ async function _getTodo(courseID, courseName, userID, studentID, authToken) {
               video.id = responseJson[i]['assignment_id'];
               video.title = responseJson[i]['title'];
               video.time = responseJson[i]['commons_content']['duration'];
-              video.courseName = courseName;
+              video.courseName = courseName.split('_')[0];
               video.due = dueTime;
               video.url = responseJson[i]['view_info']['view_url'];
               videos.push(video);
@@ -112,7 +112,7 @@ async function _getTodo(courseID, courseName, userID, studentID, authToken) {
             let assignment = {};
             assignment.id = responseJson[i]['assignment_id'];
             assignment.title = responseJson[i]['title'];
-            assignment.courseName = courseName;
+            assignment.courseName = courseName.split('_')[0];
             assignment.due = dueTime;
             assignment.url = responseJson[i]['view_info']['view_url'];
             assignments.push(assignment);
