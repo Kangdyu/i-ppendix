@@ -1,81 +1,32 @@
-import styled from 'styled-components';
 import { formatDate, formatRemainTimeFromNow } from '../utils/date';
-
-const PADDING = 20;
-
-const Container = styled.div`
-  max-height: 500px;
-  min-height: 500px;
-  height: 100%;
-  overflow-y: scroll;
-  padding: ${PADDING}px 0;
-  border-radius: 16px;
-  border: 1px solid #dbdbdb;
-`;
-
-const Title = styled.h2`
-  font-size: 24px;
-  font-weight: 700;
-  padding: 0 ${PADDING}px;
-  margin-bottom: 30px;
-`;
-
-const List = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
-const ListItem = styled.li`
-  width: 100%;
-  padding: 12px ${PADDING}px;
-  border-bottom: 1px solid #dbdbdb;
-`;
-
-const ListItemRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  &:not(:last-child) {
-    margin-bottom: 12px;
-  }
-`;
-
-const Text = styled.span`
-  font-size: 14px;
-  color: #555;
-  text-align: ${props => props.align};
-`;
-
-const StrongText = styled(Text)`
-  font-size: 18px;
-  font-weight: 700;
-  color: black;
-`;
+import ContentCard from './ContentCard';
+import { StrongText, Text } from './Text';
 
 function TodoList({ title, todos, ...props }) {
   return (
-    <Container {...props}>
-      <Title>{title}</Title>
-      <List>
+    <ContentCard title={title} {...props}>
+      <ContentCard.List>
         {todos.length === 0 && (
           <StrongText>모든 할 일을 마쳤어요 😄</StrongText>
         )}
         {todos.map(todo => (
-          <ListItem key={todo.id}>
-            <ListItemRow>
+          <ContentCard.ListItem key={todo.id}>
+            <ContentCard.ListItemRow>
               <StrongText>{todo.title}</StrongText>
               <StrongText>{formatRemainTimeFromNow(todo.due)}</StrongText>
-            </ListItemRow>
-            <ListItemRow>
-              <Text align='start'>{todo.courseName}</Text>
-              <Text align='end'>{formatDate(todo.due)} </Text>
-            </ListItemRow>
-          </ListItem>
+            </ContentCard.ListItemRow>
+            <ContentCard.ListItemRow>
+              <Text type='weak' align='start'>
+                {todo.courseName}
+              </Text>
+              <Text type='weak' align='end'>
+                {formatDate(todo.due)}{' '}
+              </Text>
+            </ContentCard.ListItemRow>
+          </ContentCard.ListItem>
         ))}
-      </List>
-    </Container>
+      </ContentCard.List>
+    </ContentCard>
   );
 }
 
