@@ -4,7 +4,9 @@ import { formatDate, formatRemainTimeFromNow } from '../utils/date';
 const PADDING = 20;
 
 const Container = styled.div`
-  height: 500px;
+  max-height: 500px;
+  min-height: 500px;
+  height: 100%;
   overflow-y: scroll;
   padding: ${PADDING}px 0;
   border-radius: 16px;
