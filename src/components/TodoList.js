@@ -19,6 +19,10 @@ const Title = styled.h2`
 `;
 
 const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 `;
 
@@ -53,6 +57,9 @@ function TodoList({ title, todos, ...props }) {
     <Container {...props}>
       <Title>{title}</Title>
       <List>
+        {todos.length === 0 && (
+          <StrongText>모든 할 일을 마쳤어요 😄</StrongText>
+        )}
         {todos.map(todo => (
           <ListItem key={todo.id}>
             <ListItemRow>
