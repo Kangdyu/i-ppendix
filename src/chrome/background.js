@@ -30,47 +30,24 @@ function mockupListener(msg, sendResponse) {
   }
 }
 
-async function messageListener(msg, sender, sendResponse) {
+function wrapData(data) {
+  return {
+    data: data || 'error',
+  };
+}
+
+function messageListener(msg, sender, sendResponse) {
   if (msg.mockup === true) {
     mockupListener(msg, sendResponse);
   } else {
     if (msg.type === 'courses') {
-      const courses = await getCourseList();
-      let response;
-      if (courses === undefined) {
-        response = { data: 'unknown' };
-      } else {
-        response = courses;
-      }
-      sendResponse(response);
+      getCourseList().then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'course') {
-      const courseData = await getCourse(msg.courseId);
-      let response;
-      if (courseData === undefined) {
-        response = { data: 'unknown' };
-      } else {
-        response = courseData;
-      }
-      sendResponse(response);
+      getCourse(msg.courseId).then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'todos') {
-      const todosData = await getTodo(msg.courseId);
-      let response;
-      if (todosData === undefined) {
-        response = { data: 'unknown' };
-      } else {
-        response = todosData;
-      }
-      sendResponse(response);
+      getTodo(msg.courseId).then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'notices') {
-      let response;
-      let noticeData;
-      getNotice(msg.courseId).then(res => (noticeData = res));
-      if (noticeData === undefined) {
-        response = { data: 'unknown' };
-      } else {
-        response = noticeData;
-      }
-      sendResponse(response);
+      getNotice(msg.courseId).then(data => sendResponse(wrapData(data)));
     }
   }
 

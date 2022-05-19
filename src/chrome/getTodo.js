@@ -5,7 +5,7 @@ export async function getTodo(courseID) {
   const Token = await getCookie('xn_api_token');
   const authToken = 'Bearer ' + Token;
 
-  if (typeof userID === undefined || typeof authToken === undefined) {
+  if (userID === undefined || authToken === undefined) {
     return;
   } else {
     const todo = await _getTodo(courseID, courseName, userID, authToken);
@@ -94,5 +94,5 @@ async function _getTodo(courseID, courseName, userID, authToken) {
     }
   }
 
-  return { data: { videos: videos, assignments: assignments } };
+  return { videos: videos, assignments: assignments };
 }

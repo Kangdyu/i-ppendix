@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
 import TodoList from '../components/TodoList';
 import useCourses from '../hooks/useCourses';
+import { MOCKUP } from '../utils/constants';
 import { fetcher } from '../utils/fetcher';
 
 const TodoContainer = styled.section`
@@ -18,13 +19,13 @@ const StyledTodoList = styled(TodoList)`
 `;
 
 function HomePage() {
-  const { courses } = useCourses({ mockup: true });
+  const { courses } = useCourses({ mockup: MOCKUP });
   const queries = useQueries(
     courses.data.map(course => {
       return {
         queryKey: ['todos', course.id],
         queryFn: () =>
-          fetcher({ type: 'todos', courseId: course.id, mockup: true }),
+          fetcher({ type: 'todos', courseId: course.id, mockup: MOCKUP }),
       };
     }),
     {

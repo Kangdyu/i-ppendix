@@ -23,8 +23,6 @@ export async function getCourseList() {
 
 export async function getCourse(courseId) {
   const courseList = await getCourseList();
-  let course = courseList.find(courseData => {
-    if (courseData.id === courseId) return true;
-  });
+  let course = courseList.find(courseData => courseData.id === courseId);
   return course;
 }

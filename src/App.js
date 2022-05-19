@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import NotFoundPage from './pages/NotFoundPage';
 import useCourses from './hooks/useCourses';
+import { MOCKUP } from './utils/constants';
 
 const FullScreenFlexContainer = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const { courses, isLoading } = useCourses({ mockup: true });
+  const { courses, isLoading } = useCourses({ mockup: MOCKUP });
 
   if (isLoading) return <main>Loading...</main>;
 
