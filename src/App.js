@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import CoursePage from './pages/CoursePage';
 import NotFoundPage from './pages/NotFoundPage';
 import useCourses from './hooks/useCourses';
-import { MOCKUP_COURSES } from './chrome/mockup/courses';
 
 const FullScreenFlexContainer = styled.div`
   display: flex;

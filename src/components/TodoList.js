@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { formatDate, formatRemainTimeFromNow } from '../utils/date';
 
-const PADDING = 24;
+const PADDING = 20;
 
 const Container = styled.div`
   min-height: 500px;
@@ -36,12 +36,12 @@ const ListItemRow = styled.div`
 `;
 
 const StrongText = styled.span`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 `;
 
 const Text = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   color: #555;
 `;
 

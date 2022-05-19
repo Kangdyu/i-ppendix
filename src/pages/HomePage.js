@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
