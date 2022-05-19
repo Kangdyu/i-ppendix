@@ -18,5 +18,5 @@ export async function getNotice(cid) {
     notice.url = data.url;
     notices.push(notice);
   }
-  return notices;
+  return { data: notices };
 }

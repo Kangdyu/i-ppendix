@@ -9,7 +9,7 @@ export async function getTodo(courseID) {
     return;
   } else {
     const todo = await _getTodo(courseID, courseName, userID, authToken);
-    return todo;
+    return { data: todo };
   }
 }
 
@@ -94,5 +94,5 @@ async function _getTodo(courseID, courseName, userID, authToken) {
     }
   }
 
-  return { data: { videos: videos, assignments: assignments } };
+  return { videos: videos, assignments: assignments };
 }

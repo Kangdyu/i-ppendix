@@ -18,7 +18,7 @@ export async function getCourseList() {
     courseData.professorName = professorName;
     courses.push(courseData);
   }
-  return courses;
+  return { data: courses };
 }
 
 export async function getCourse(courseId) {
@@ -26,5 +26,5 @@ export async function getCourse(courseId) {
   let course = courseList.find(courseData => {
     if (courseData.id === courseId) return true;
   });
-  return course;
+  return { data: course };
 }
