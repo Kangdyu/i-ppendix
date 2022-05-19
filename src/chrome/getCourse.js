@@ -18,13 +18,11 @@ export async function getCourseList() {
     courseData.professorName = professorName;
     courses.push(courseData);
   }
-  return { data: courses };
+  return courses;
 }
 
 export async function getCourse(courseId) {
   const courseList = await getCourseList();
-  let course = courseList.find(courseData => {
-    if (courseData.id === courseId) return true;
-  });
-  return { data: course };
+  let course = courseList.find(courseData => courseData.id === courseId);
+  return course;
 }

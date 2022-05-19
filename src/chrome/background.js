@@ -30,18 +30,24 @@ function mockupListener(msg, sendResponse) {
   }
 }
 
+function wrapData(data) {
+  return {
+    data: data || 'error',
+  };
+}
+
 function messageListener(msg, sender, sendResponse) {
   if (msg.mockup === true) {
     mockupListener(msg, sendResponse);
   } else {
     if (msg.type === 'courses') {
-      getCourseList().then(sendResponse);
+      getCourseList().then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'course') {
-      getCourse(msg.courseId).then(sendResponse);
+      getCourse(msg.courseId).then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'todos') {
-      getTodo(msg.courseId).then(sendResponse);
+      getTodo(msg.courseId).then(data => sendResponse(wrapData(data)));
     } else if (msg.type === 'notices') {
-      getNotice(msg.courseId).then(sendResponse);
+      getNotice(msg.courseId).then(data => sendResponse(wrapData(data)));
     }
   }
 
