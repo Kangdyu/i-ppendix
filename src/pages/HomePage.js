@@ -3,18 +3,29 @@ import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
 import TodoList from '../components/TodoList';
 import useCourses from '../hooks/useCourses';
-import { MOCKUP } from '../utils/constants';
+import { BREAKPOINTS, MOCKUP } from '../utils/constants';
 import { fetcher } from '../utils/fetcher';
 
 const TodoContainer = styled.section`
   display: flex;
   width: 100%;
+
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledTodoList = styled(TodoList)`
   flex: 1;
   &:not(:last-child) {
     margin-right: 20px;
+  }
+
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    &:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
   }
 `;
 
