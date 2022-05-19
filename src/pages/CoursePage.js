@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
 import TodoList from '../components/TodoList';
 import useTodos from '../hooks/useTodos';
+import { MOCKUP } from '../utils/constants';
 
 const TodoContainer = styled.section`
   display: flex;
@@ -18,7 +19,7 @@ const StyledTodoList = styled(TodoList)`
 
 function CoursePage() {
   const { courseId } = useParams();
-  const { todos, isLoading } = useTodos({ courseId, mockup: true });
+  const { todos, isLoading } = useTodos({ courseId, mockup: MOCKUP });
 
   if (isLoading) return <main>Loading...</main>;
 
