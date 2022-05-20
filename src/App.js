@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
@@ -25,20 +25,20 @@ function App() {
   if (isLoading) return <main>Loading...</main>;
 
   return (
-    <BrowserRouter basename='/index.html'>
+    <HashRouter>
       <FullScreenFlexContainer>
         <Sidebar courses={courses.data} />
         <Container>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='course' element={<CoursePage />}>
+            <Route path='/course' element={<CoursePage />}>
               <Route path=':courseId' element={<CoursePage />} />
             </Route>
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Container>
       </FullScreenFlexContainer>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
