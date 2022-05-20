@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { LOCALSTORAGE_KEYS } from '../utils/constants';
 import { formatDate } from '../utils/date';
 import ContentCard from './ContentCard';
 import { StrongText, Text } from './Text';
@@ -21,17 +23,61 @@ const FavoriteButton = styled.button`
   background-color: transparent;
   cursor: pointer;
   font-size: 24px;
+  font-weight: 900;
+  color: #ffd700;
 `;
 
 function NoticeList({ title, notices, ...props }) {
+  const [favoriteNotices, setFavoriteNotices] = useState([]);
+
+  useEffect(() => {
+    const storagedFavoriteNotices = localStorage.getItem(
+      LOCALSTORAGE_KEYS.favoriteNotices,
+    );
+    if (storagedFavoriteNotices) {
+      setFavoriteNotices(JSON.parse(storagedFavoriteNotices));
+    } else {
+      localStorage.setItem(
+        LOCALSTORAGE_KEYS.favoriteNotices,
+        JSON.stringify([]),
+      );
+    }
+  }, []);
+
+  function isFavoriteNotice(notice) {
+    return !!favoriteNotices.find(
+      favoriteNotices => favoriteNotices.id === notice.id,
+    );
+  }
+
+  function updateFavoriteNotices(newFavoriteNotices) {
+    localStorage.setItem(
+      LOCALSTORAGE_KEYS.favoriteNotices,
+      JSON.stringify(newFavoriteNotices),
+    );
+    setFavoriteNotices(newFavoriteNotices);
+  }
+
+  function onClickFavoriteButton(notice) {
+    if (isFavoriteNotice(notice)) {
+      updateFavoriteNotices(
+        favoriteNotices.filter(
+          favoriteNotice => favoriteNotice.id !== notice.id,
+        ),
+      );
+    } else {
+      updateFavoriteNotices(favoriteNotices.concat(notice));
+    }
+  }
+
   return (
     <ContentCard title={title} {...props}>
       <ContentCard.List>
         {notices.length === 0 && <StrongText>등록된 공지가 없어요</StrongText>}
         {notices.map(notice => (
           <ContentCard.ListItem key={notice.id}>
-            <FavoriteButton onClick={() => console.log('clicked')}>
-              ☆
+            <FavoriteButton onClick={() => onClickFavoriteButton(notice)}>
+              {isFavoriteNotice(notice) ? '★' : '☆'}
             </FavoriteButton>
             <Anchor href={notice.url} target='_blank'>
               <ContentCard.ListItemRow>
