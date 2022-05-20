@@ -6,6 +6,12 @@ import { getTodo } from './getTodo';
 import { getCourseList } from './getCourse';
 import { getCourse } from './getCourse';
 
+chrome.action.onClicked.addListener(() => {
+  chrome.tabs.create({
+    url: 'index.html',
+  });
+});
+
 function mockupListener(msg, sendResponse) {
   if (msg.type === 'courses') {
     sendResponse(MOCKUP_COURSES);
