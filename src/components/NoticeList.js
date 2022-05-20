@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useLocalStorageState from '../hooks/useLocalStorageState';
 import { LOCALSTORAGE_KEYS } from '../utils/constants';
 import { formatDate } from '../utils/date';
 import ContentCard from './ContentCard';
@@ -28,21 +29,10 @@ const FavoriteButton = styled.button`
 `;
 
 function NoticeList({ title, notices, ...props }) {
-  const [favoriteNotices, setFavoriteNotices] = useState([]);
-
-  useEffect(() => {
-    const storagedFavoriteNotices = localStorage.getItem(
-      LOCALSTORAGE_KEYS.favoriteNotices,
-    );
-    if (storagedFavoriteNotices) {
-      setFavoriteNotices(JSON.parse(storagedFavoriteNotices));
-    } else {
-      localStorage.setItem(
-        LOCALSTORAGE_KEYS.favoriteNotices,
-        JSON.stringify([]),
-      );
-    }
-  }, []);
+  const [favoriteNotices, setFavoriteNotices] = useLocalStorageState(
+    LOCALSTORAGE_KEYS.favoriteNotices,
+    [],
+  );
 
   function isFavoriteNotice(notice) {
     return !!favoriteNotices.find(
@@ -50,23 +40,15 @@ function NoticeList({ title, notices, ...props }) {
     );
   }
 
-  function updateFavoriteNotices(newFavoriteNotices) {
-    localStorage.setItem(
-      LOCALSTORAGE_KEYS.favoriteNotices,
-      JSON.stringify(newFavoriteNotices),
-    );
-    setFavoriteNotices(newFavoriteNotices);
-  }
-
   function onClickFavoriteButton(notice) {
     if (isFavoriteNotice(notice)) {
-      updateFavoriteNotices(
+      setFavoriteNotices(
         favoriteNotices.filter(
           favoriteNotice => favoriteNotice.id !== notice.id,
         ),
       );
     } else {
-      updateFavoriteNotices(favoriteNotices.concat(notice));
+      setFavoriteNotices(favoriteNotices.concat(notice));
     }
   }
 
