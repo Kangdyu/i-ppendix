@@ -1,5 +1,3 @@
-import { getCourse } from './getCourse';
-
 export async function getNotice(cid) {
   let notices = [];
   let ENDPOINT =
