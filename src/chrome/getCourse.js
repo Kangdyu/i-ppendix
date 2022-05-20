@@ -23,13 +23,14 @@ export async function getCourseList() {
 }
 
 export async function getCourse(courseId) {
+  let storagedList = await chrome.storage.local.get(['courseList']);
   let courseList;
-  chrome.storage.local.get(['courseList'], res => {
-    courseList = res;
-  });
-  if (!courseList) {
+  if (Object.keys(storagedList).length === 0) {
     courseList = await getCourseList();
+  } else {
+    courseList = storagedList.courseList;
   }
+
   let course = courseList.find(courseData => courseData.id === courseId);
   return course;
 }
