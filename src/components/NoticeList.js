@@ -4,7 +4,23 @@ import ContentCard from './ContentCard';
 import { StrongText, Text } from './Text';
 
 const Anchor = styled.a`
+  width: 100%;
   text-decoration: none;
+`;
+
+const FavoriteButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 24px;
 `;
 
 function NoticeList({ title, notices, ...props }) {
@@ -14,6 +30,9 @@ function NoticeList({ title, notices, ...props }) {
         {notices.length === 0 && <StrongText>등록된 공지가 없어요</StrongText>}
         {notices.map(notice => (
           <ContentCard.ListItem key={notice.id}>
+            <FavoriteButton onClick={() => console.log('clicked')}>
+              ☆
+            </FavoriteButton>
             <Anchor href={notice.url} target='_blank'>
               <ContentCard.ListItemRow>
                 <StrongText>{notice.title}</StrongText>

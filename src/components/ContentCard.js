@@ -28,6 +28,7 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li`
+  display: flex;
   width: 100%;
   padding: 12px ${PADDING}px;
   border-bottom: 1px solid #dbdbdb;
