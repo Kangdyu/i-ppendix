@@ -9,7 +9,7 @@
   "action": {
     "default_title": "Click to open i-ppendix"
   },
-  "permissions": ["activeTab", "cookies"],
+  "permissions": ["activeTab", "cookies", "storage"],
   "host_permissions": ["https://canvas.skku.edu/*", "<all_urls>"],
   "icons": {
     "16": "i-ppendix-icon128.png",

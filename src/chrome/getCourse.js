@@ -18,11 +18,21 @@ export async function getCourseList() {
     courseData.professorName = professorName;
     courses.push(courseData);
   }
+  chrome.storage.local.set({ data: courses }, () => {
+    console.log(courses);
+    console.log('saved to chrome');
+  });
   return courses;
 }
 
 export async function getCourse(courseId) {
-  const courseList = await getCourseList();
+  let courseList;
+  chrome.storage.local.get(['data'], res => {
+    courseList = res;
+  });
+  if (!courseList) {
+    courseList = await getCourseList();
+  }
   let course = courseList.find(courseData => courseData.id === courseId);
   return course;
 }
