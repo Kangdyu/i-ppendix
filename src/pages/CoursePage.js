@@ -1,13 +1,16 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import NoticeList from '../components/NoticeList';
 import PageContentContainer from '../components/PageContentContainer';
 import TodoList from '../components/TodoList';
+import useNotices from '../hooks/useNotices';
 import useTodos from '../hooks/useTodos';
 import { MOCKUP } from '../utils/constants';
 
-const TodoContainer = styled.section`
+const ContentContainer = styled.section`
   display: flex;
   width: 100%;
+  margin-bottom: 48px;
 `;
 
 const StyledTodoList = styled(TodoList)`
@@ -17,18 +20,32 @@ const StyledTodoList = styled(TodoList)`
   }
 `;
 
+const StyledNoticeList = styled(NoticeList)`
+  flex: 1;
+`;
+
 function CoursePage() {
   const { courseId } = useParams();
-  const { todos, isLoading } = useTodos({ courseId, mockup: MOCKUP });
+  const { todos, isLoading: isTodoLoading } = useTodos({
+    courseId,
+    mockup: MOCKUP,
+  });
+  const { notices, isLoading: isNoticesLoading } = useNotices({
+    courseId,
+    mockup: MOCKUP,
+  });
 
-  if (isLoading) return <main>Loading...</main>;
+  if (isTodoLoading || isNoticesLoading) return <main>Loading...</main>;
 
   return (
     <PageContentContainer title='Course'>
-      <TodoContainer>
+      <ContentContainer>
         <StyledTodoList title='수업' todos={todos.data.videos} />
         <StyledTodoList title='과제' todos={todos.data.assignments} />
-      </TodoContainer>
+      </ContentContainer>
+      <ContentContainer>
+        <StyledNoticeList title='공지사항' notices={notices.data} />
+      </ContentContainer>
     </PageContentContainer>
   );
 }
