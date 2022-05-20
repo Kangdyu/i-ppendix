@@ -1,9 +1,9 @@
-export async function getTodo(courseID) {
+import { getCookie } from './getCookie';
+
+export async function getTodo(courseID, authToken) {
   const courseInfo = await getCourseInfo(courseID);
   const userID = courseInfo[0];
   const courseName = courseInfo[1];
-  const Token = await getCookie('xn_api_token');
-  const authToken = 'Bearer ' + Token;
   const studentID = await getStudentID(courseID, userID, authToken);
 
   if (userID === undefined || authToken === undefined) {
@@ -31,19 +31,6 @@ async function getCourseInfo(courseID) {
   let userID = responseJson['enrollments'][0]['user_id'];
   let courseName = responseJson['name'];
   return [userID, courseName];
-}
-
-async function getCookie(tokenName) {
-  const cookies = await chrome.cookies.getAll({ domain: 'canvas.skku.edu' });
-
-  let token;
-  for (let i = 0; i < cookies.length; i++) {
-    if (cookies[i].name === tokenName) {
-      token = cookies[i].value;
-      break;
-    }
-  }
-  return token;
 }
 
 async function getStudentID(courseID, userID, authToken) {

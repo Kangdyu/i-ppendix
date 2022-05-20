@@ -5,6 +5,13 @@ import { getNotice } from './getNotice';
 import { getTodo } from './getTodo';
 import { getCourseList } from './getCourse';
 import { getCourse } from './getCourse';
+import { getCookie } from './getCookie';
+
+chrome.action.onClicked.addListener(() => {
+  chrome.tabs.create({
+    url: 'index.html',
+  });
+});
 
 function mockupListener(msg, sendResponse) {
   if (msg.type === 'courses') {
@@ -40,15 +47,24 @@ function messageListener(msg, sender, sendResponse) {
   if (msg.mockup === true) {
     mockupListener(msg, sendResponse);
   } else {
-    if (msg.type === 'courses') {
-      getCourseList().then(data => sendResponse(wrapData(data)));
-    } else if (msg.type === 'course') {
-      getCourse(msg.courseId).then(data => sendResponse(wrapData(data)));
-    } else if (msg.type === 'todos') {
-      getTodo(msg.courseId).then(data => sendResponse(wrapData(data)));
-    } else if (msg.type === 'notices') {
-      getNotice(msg.courseId).then(data => sendResponse(wrapData(data)));
-    }
+    getCookie('xn_api_token').then(token => {
+      if (token === 'unknown') {
+        sendResponse(wrapData(null));
+      } else {
+        if (msg.type === 'courses') {
+          getCourseList().then(data => sendResponse(wrapData(data)));
+        } else if (msg.type === 'course') {
+          getCourse(msg.courseId).then(data => sendResponse(wrapData(data)));
+        } else if (msg.type === 'todos') {
+          const authToken = 'Bearer ' + token;
+          getTodo(msg.courseId, authToken).then(data =>
+            sendResponse(wrapData(data)),
+          );
+        } else if (msg.type === 'notices') {
+          getNotice(msg.courseId).then(data => sendResponse(wrapData(data)));
+        }
+      }
+    });
   }
 
   // for async behavior
