@@ -18,16 +18,13 @@ export async function getCourseList() {
     courseData.professorName = professorName;
     courses.push(courseData);
   }
-  chrome.storage.local.set({ data: courses }, () => {
-    console.log(courses);
-    console.log('saved to chrome');
-  });
+  chrome.storage.local.set({ courseList: courses });
   return courses;
 }
 
 export async function getCourse(courseId) {
   let courseList;
-  chrome.storage.local.get(['data'], res => {
+  chrome.storage.local.get(['courseList'], res => {
     courseList = res;
   });
   if (!courseList) {
