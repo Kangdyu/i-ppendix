@@ -1,5 +1,6 @@
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
+import MemoList from '../components/MemoList';
 import NoticeList from '../components/NoticeList';
 import PageContentContainer from '../components/PageContentContainer';
 import Section from '../components/Section';
@@ -24,6 +25,20 @@ const StyledTodoList = styled(TodoList)`
 `;
 
 const StyledNoticeList = styled(NoticeList)`
+  flex: 1;
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    &:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  }
+`;
+
+const StyledMemoList = styled(MemoList)`
   flex: 1;
 `;
 
@@ -68,6 +83,7 @@ function HomePage() {
       </Section>
       <Section>
         <StyledNoticeList title='즐겨찾는 공지사항' notices={favoriteNotices} />
+        <StyledMemoList title='메모' />
       </Section>
     </PageContentContainer>
   );
