@@ -31,6 +31,6 @@ export async function getCourse(courseId) {
     courseList = storagedList.courseList;
   }
 
-  let course = courseList.find(courseData => courseData.id === courseId);
+  let course = courseList.find(courseData => courseData.id === +courseId);
   return course;
 }

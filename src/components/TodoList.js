@@ -4,6 +4,7 @@ import ContentCard from './ContentCard';
 import { StrongText, Text } from './Text';
 
 const Anchor = styled.a`
+  width: 100%;
   text-decoration: none;
 `;
 

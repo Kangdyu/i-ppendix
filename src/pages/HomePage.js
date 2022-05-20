@@ -1,19 +1,13 @@
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
+import NoticeList from '../components/NoticeList';
 import PageContentContainer from '../components/PageContentContainer';
+import Section from '../components/Section';
 import TodoList from '../components/TodoList';
 import useCourses from '../hooks/useCourses';
-import { BREAKPOINTS, MOCKUP } from '../utils/constants';
+import useLocalStorageState from '../hooks/useLocalStorageState';
+import { BREAKPOINTS, LOCALSTORAGE_KEYS, MOCKUP } from '../utils/constants';
 import { fetcher } from '../utils/fetcher';
-
-const TodoContainer = styled.section`
-  display: flex;
-  width: 100%;
-
-  @media (max-width: ${BREAKPOINTS.lg}px) {
-    flex-direction: column;
-  }
-`;
 
 const StyledTodoList = styled(TodoList)`
   flex: 1;
@@ -27,6 +21,10 @@ const StyledTodoList = styled(TodoList)`
       margin-bottom: 20px;
     }
   }
+`;
+
+const StyledNoticeList = styled(NoticeList)`
+  flex: 1;
 `;
 
 function HomePage() {
@@ -44,6 +42,11 @@ function HomePage() {
     },
   );
 
+  const [favoriteNotices, _] = useLocalStorageState(
+    LOCALSTORAGE_KEYS.favoriteNotices,
+    [],
+  );
+
   const isLoading = queries.some(query => query.isLoading);
   if (isLoading) return <main>Loading...</main>;
 
@@ -59,10 +62,13 @@ function HomePage() {
 
   return (
     <PageContentContainer title='Home'>
-      <TodoContainer>
+      <Section>
         <StyledTodoList title='수업' todos={videoTodos} />
         <StyledTodoList title='과제' todos={assignmentTodos} />
-      </TodoContainer>
+      </Section>
+      <Section>
+        <StyledNoticeList title='즐겨찾는 공지사항' notices={favoriteNotices} />
+      </Section>
     </PageContentContainer>
   );
 }
