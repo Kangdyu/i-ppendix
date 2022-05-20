@@ -1,19 +1,11 @@
 import { useQueries } from 'react-query';
 import styled from 'styled-components';
 import PageContentContainer from '../components/PageContentContainer';
+import Section from '../components/Section';
 import TodoList from '../components/TodoList';
 import useCourses from '../hooks/useCourses';
 import { BREAKPOINTS, MOCKUP } from '../utils/constants';
 import { fetcher } from '../utils/fetcher';
-
-const TodoContainer = styled.section`
-  display: flex;
-  width: 100%;
-
-  @media (max-width: ${BREAKPOINTS.lg}px) {
-    flex-direction: column;
-  }
-`;
 
 const StyledTodoList = styled(TodoList)`
   flex: 1;
@@ -59,10 +51,10 @@ function HomePage() {
 
   return (
     <PageContentContainer title='Home'>
-      <TodoContainer>
+      <Section title='TODO'>
         <StyledTodoList title='수업' todos={videoTodos} />
         <StyledTodoList title='과제' todos={assignmentTodos} />
-      </TodoContainer>
+      </Section>
     </PageContentContainer>
   );
 }

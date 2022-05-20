@@ -2,21 +2,23 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import NoticeList from '../components/NoticeList';
 import PageContentContainer from '../components/PageContentContainer';
+import Section from '../components/Section';
 import TodoList from '../components/TodoList';
 import useNotices from '../hooks/useNotices';
 import useTodos from '../hooks/useTodos';
-import { MOCKUP } from '../utils/constants';
-
-const ContentContainer = styled.section`
-  display: flex;
-  width: 100%;
-  margin-bottom: 48px;
-`;
+import { BREAKPOINTS, MOCKUP } from '../utils/constants';
 
 const StyledTodoList = styled(TodoList)`
   flex: 1;
   &:not(:last-child) {
     margin-right: 20px;
+  }
+
+  @media (max-width: ${BREAKPOINTS.lg}px) {
+    &:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
   }
 `;
 
@@ -39,13 +41,13 @@ function CoursePage() {
 
   return (
     <PageContentContainer title='Course'>
-      <ContentContainer>
+      <Section title='TODO'>
         <StyledTodoList title='수업' todos={todos.data.videos} />
         <StyledTodoList title='과제' todos={todos.data.assignments} />
-      </ContentContainer>
-      <ContentContainer>
+      </Section>
+      <Section title='Favorites'>
         <StyledNoticeList title='공지사항' notices={notices.data} />
-      </ContentContainer>
+      </Section>
     </PageContentContainer>
   );
 }
