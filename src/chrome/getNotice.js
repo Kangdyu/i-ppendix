@@ -1,3 +1,5 @@
+import { getCourse } from './getCourse';
+
 export async function getNotice(cid) {
   let notices = [];
   let ENDPOINT =
@@ -13,7 +15,6 @@ export async function getNotice(cid) {
     let notice = {};
     notice.id = data.id;
     notice.title = data.title;
-    notice.courseName = null; //TODO
     notice.postedDate = new Date(data.created_at);
     notice.url = data.url;
     notices.push(notice);
