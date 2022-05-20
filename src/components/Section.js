@@ -5,7 +5,7 @@ const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
 `;
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ const Title = styled.h2`
 function Section({ title, children, ...props }) {
   return (
     <StyledSection {...props}>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
       <Container>{children}</Container>
     </StyledSection>
   );

@@ -4,6 +4,7 @@ import NoticeList from '../components/NoticeList';
 import PageContentContainer from '../components/PageContentContainer';
 import Section from '../components/Section';
 import TodoList from '../components/TodoList';
+import useCourse from '../hooks/useCourse';
 import useNotices from '../hooks/useNotices';
 import useTodos from '../hooks/useTodos';
 import { BREAKPOINTS, MOCKUP } from '../utils/constants';
@@ -28,6 +29,10 @@ const StyledNoticeList = styled(NoticeList)`
 
 function CoursePage() {
   const { courseId } = useParams();
+  const { course, isLoading: isCourseLoading } = useCourse({
+    courseId,
+    mockup: MOCKUP,
+  });
   const { todos, isLoading: isTodoLoading } = useTodos({
     courseId,
     mockup: MOCKUP,
@@ -37,15 +42,19 @@ function CoursePage() {
     mockup: MOCKUP,
   });
 
-  if (isTodoLoading || isNoticesLoading) return <main>Loading...</main>;
+  if (isCourseLoading || isTodoLoading || isNoticesLoading)
+    return <main>Loading...</main>;
 
   return (
-    <PageContentContainer title='Course'>
-      <Section title='TODO'>
+    <PageContentContainer
+      title={course.data.name}
+      subTitle={`${course.data.professorName} | ${course.data.courseCode}`}
+    >
+      <Section>
         <StyledTodoList title='수업' todos={todos.data.videos} />
         <StyledTodoList title='과제' todos={todos.data.assignments} />
       </Section>
-      <Section title='Favorites'>
+      <Section>
         <StyledNoticeList title='공지사항' notices={notices.data} />
       </Section>
     </PageContentContainer>

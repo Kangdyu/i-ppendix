@@ -51,7 +51,7 @@ function HomePage() {
 
   return (
     <PageContentContainer title='Home'>
-      <Section title='TODO'>
+      <Section>
         <StyledTodoList title='수업' todos={videoTodos} />
         <StyledTodoList title='과제' todos={assignmentTodos} />
       </Section>
