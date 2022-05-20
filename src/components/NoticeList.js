@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useLocalStorageState from '../hooks/useLocalStorageState';
 import { LOCALSTORAGE_KEYS } from '../utils/constants';
