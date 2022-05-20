@@ -14,7 +14,7 @@
 
 ## 설치
 
-1. 파일 다운로드 후 패키지 dependency 설치 및 빌드 실행
+1. 프로젝트 clone 후 패키지 dependency 설치 및 빌드 실행
 
 ```bash
 npm install
