@@ -7,4 +7,5 @@ export const BREAKPOINTS = {
 export const LOCALSTORAGE_KEYS = {
   favoriteNotices: 'favoriteNotices',
   memos: 'memos',
+  sid: 'sid',
 };

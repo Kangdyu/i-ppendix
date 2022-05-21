@@ -1,4 +1,4 @@
-import { getCookie } from './getCookie';
+import { LOCALSTORAGE_KEYS } from '../utils/constants';
 
 export async function getTodo(courseID, authToken) {
   const courseInfo = await getCourseInfo(courseID);
@@ -34,17 +34,26 @@ async function getCourseInfo(courseID) {
 }
 
 async function getStudentID(courseID, userID, authToken) {
-  let endpoint =
-    'https://canvas.skku.edu/learningx/api/v1/courses/' +
-    courseID +
-    '/total_learnstatus/users/' +
-    userID;
-  const response = await fetch(endpoint, {
-    headers: { Authorization: authToken, Accept: 'application/json' },
-  });
-  const responseJson = await response.json();
+  let studentID;
 
-  let studentID = Number(responseJson['item']['user_login']);
+  let storaged = await chrome.storage.local.get([LOCALSTORAGE_KEYS.sid]);
+  if (Object.keys(storaged).length !== 0) {
+    studentID = storaged.sid;
+  } else {
+    let endpoint =
+      'https://canvas.skku.edu/learningx/api/v1/courses/' +
+      courseID +
+      '/total_learnstatus/users/' +
+      userID;
+    const response = await fetch(endpoint, {
+      headers: { Authorization: authToken, Accept: 'application/json' },
+    });
+    const responseJson = await response.json();
+
+    studentID = Number(responseJson['item']['user_login']);
+    chrome.storage.local.set({ [LOCALSTORAGE_KEYS.sid]: studentID });
+  }
+
   return studentID;
 }
 
