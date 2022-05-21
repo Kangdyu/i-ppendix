@@ -14,6 +14,7 @@
 
 ![ippendix](https://user-images.githubusercontent.com/43704761/169644217-d1c06335-f057-42ec-bd90-baebc20eb907.gif)
 
+
 ## 설치
 
 1. 프로젝트 clone 후 패키지 dependency 설치 및 빌드 실행
@@ -37,6 +38,7 @@ npm run build
 
 5. 기존 아이캠퍼스 로그인한 후 대시보드 페이지가 열린 상태에서 i-ppendix 확장프로그램 아이콘 클릭하여 사용
 
+
 ## 개발
 
 1. 코드 작성
@@ -44,7 +46,7 @@ npm run build
 3. 대시보드 페이지 새로고침하여 확인
     - 확실하게 하기 위해서는 `chrome://extensions` 페이지에서 확장프로그램을 reload한 후 테스트
 
-### Code Overview
+- **Code Overview**
 
 ```
 Chrome Service Worker <----------------------------> Dashboard Page
@@ -54,16 +56,24 @@ Chrome Service Worker <----------------------------> Dashboard Page
      and refine)
 ```
 
+- **Style Guideline**
+
+    - 해당 프로젝트는 `prettier`를 사용하여 code formatting을 진행하고 있습니다. formatting 설정에 대해서는 `prettier.rc` 파일을 참고해주시고, push 전 formatting을 진행해주세요.
+    - 변수명, 함수명에 대해서는 lowerCamelCase를 사용합니다.
+
+
 ## 기여
 
 - 문제나 건의사항이 있을 시 이슈 탭에 이슈를 남겨주세요.
 - 직접 구현한 기능에 대해서는 `dev` 브랜치에 Pull Request를 올려주세요.
+
 
 ## 사용 시 주의 사항
 
 - 반드시 다른 세션에서 **기존 아이캠퍼스에 로그인한 후**에 확장 프로그램을 실행시켜야 한다.
 - 만약 기존 아이캠퍼스에 로그인하였는데도 정상적으로 표시되지 않는다면 서버 문제일 수 있으니 잠시 기다렸다가 재실행해본다.
 - 기존 아이캠퍼스에서 강의 콘텐츠 탭에 올라오지 않고 과제 및 평가 탭에만 올라온 과제의 경우 가져오지 못한다.
+
 
 ## 라이센스
 
